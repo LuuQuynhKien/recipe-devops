@@ -1,0 +1,15 @@
+{
+  "name": "recipe-web",
+  "version": "1.0.0",
+  "description": "Website chia se cong thuc nau an (Express + MySQL)",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mysql2": "^3.11.5",
+    "prom-client": "^15.1.3"
+  }
+}

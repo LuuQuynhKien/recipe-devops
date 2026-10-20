@@ -1,0 +1,10 @@
+# Bat buoc LF de script shell/cau hinh chay dung trong container Linux (tranh loi CRLF tren Windows)
+* text=auto
+*.sh   text eol=lf
+*.sql  text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.conf text eol=lf
+*.json text eol=lf
+*.js   text eol=lf
+Dockerfile text eol=lf
