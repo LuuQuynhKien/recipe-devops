@@ -1,0 +1,39 @@
+# ============================================================================
+# COMMIT 3: Loki + Promtail (log tap trung) - truy van bang LogQL trong Grafana
+# Chay: docker compose -f docker-compose.yml -f docker-compose.monitoring.yml \
+#                      -f docker-compose.logging.yml up -d
+# ============================================================================
+services:
+  loki:
+    image: grafana/loki:3.4.2
+    container_name: recipe_loki
+    restart: unless-stopped
+    command: ["-config.file=/etc/loki/config.yml"]
+    volumes:
+      - ./logging/loki-config.yml:/etc/loki/config.yml:ro
+      - loki_data:/loki
+    networks: [monitoring]          # khong publish cong, chi Grafana/Promtail truy cap
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    mem_limit: 512m
+
+  promtail:
+    image: grafana/promtail:3.4.2
+    container_name: recipe_promtail
+    restart: unless-stopped
+    command: ["-config.file=/etc/promtail/config.yml"]
+    volumes:
+      - ./logging/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro   # doc log container qua Docker API
+      - promtail_positions:/positions
+    depends_on: [loki]
+    networks: [monitoring]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 128m
+
+  grafana:
+    depends_on: [loki]
+
+volumes:
+  loki_data:
+  promtail_positions:
